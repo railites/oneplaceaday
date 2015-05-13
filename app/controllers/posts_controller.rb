@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :add_comment]
-  before_filter :get_post, except: [:index, :create]
+  before_filter :get_post, except: [:index,:new, :create]
 
   def new
     @post = Post.new
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
 
   def index
     page_number = params["page"] || 1
-    @posts = Post.page(page_number).order('created_at DESC')
+    @posts ||= Post.page(page_number).order('created_at DESC')
   end
 
   def show

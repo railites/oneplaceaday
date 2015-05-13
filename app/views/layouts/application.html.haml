@@ -24,23 +24,23 @@
             %ul.dropdown-menu{'role' => 'menu'}
               - if user_signed_in?
                 %li
-                  %a{:href => edit_user_path(current_user)} My Profile
+                  = link_to 'My Profile', edit_user_path(current_user)
                 %li
-                  %a{:href => posts_user_path(current_user)} My Posts
+                  = link_to 'My Posts', posts_user_path(current_user)
                 %li
-                  %a{:href => new_post_path} Add Post
+                  = link_to 'Add Post', new_post_path
                 %li
-                  %a{:href => about_path} About
+                  = link_to 'About', about_path
                 %li
                   = link_to "Sign out", destroy_user_session_path, method: :delete
               - else
                 %li
-                  %a{:href => new_user_session_path} Sign In
+                  = link_to 'Sign In', new_user_session_path
                 %li
-                  %a{:href => new_user_registration_path} Sign Up
+                  = link_to 'Sign Up', new_user_registration_path
                 %li
-                  %a{:href => new_post_path} Add Post
+                  = link_to 'Add Post', new_post_path
                 %li
-                  %a{:href => about_path} About
+                  = link_to 'About', about_path
       %br
       = yield

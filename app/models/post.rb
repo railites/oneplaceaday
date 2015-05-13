@@ -1,7 +1,6 @@
 class Post < ActiveRecord::Base
   belongs_to :user
   has_many :comments
-  has_many :likes
 
   mount_uploader :photo, PhotoUploader
 
@@ -12,6 +11,8 @@ class Post < ActiveRecord::Base
 
   self.per_page = 3
 
+  include Likeable
+  
   def description
     super && super.html_safe
   end

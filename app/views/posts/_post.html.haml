@@ -1,0 +1,11 @@
+.col-md-4.image-container.box-container.listing
+  = link_to post do
+    =image_tag post.photo.url, class: 'image-medium'
+  %br
+  = link_to post do
+    %p.txtStyle.small_title= post.title
+  
+  .small_description
+    = truncate(post.description, length: 100, escape: false)
+    = link_to posts_user_path(post.user) do
+      %p.info Author: #{post.user.username}

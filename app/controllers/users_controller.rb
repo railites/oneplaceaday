@@ -1,28 +1,31 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update]
+  before_filter :get_user, only: [:posts, :edit, :update]
 
   def posts
-    @user = User.find params[:id]
-    @posts = @user.my_posts
+    @posts ||= @user.posts.order("created_at DESC")
     render 'posts/index'
   end
 
   def edit
-    @user = User.find params[:id]
+
   end
 
   def update
-    @user = User.find params[:id]
-    if @user.update(permit_params)
+    if @user.update(user_params)
       redirect_to root_path
     else
-      render 'edit'
+      render :edit
     end
   end
 
   private
 
-  def permit_params
+  def user_params
     params.require(:user).permit(:id, :username, :email, :profile_photo)
+  end
+
+  def get_user
+    @user = User.find params[:id]
   end
 end

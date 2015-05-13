@@ -8,18 +8,16 @@ module PostsHelper
   end
 
   def image_for_current_user(user)
-    return user.profile_photo.url if user.present? and user.profile_photo.url.present?
-    'nouserimage.png'
+    user.present? and user.profile_photo.url.present? ?  user.profile_photo.url : 'nouserimage.png'
   end
 
   def username_for_user(user)
-    return 'Anonymous User' if user.nil?
-    user.username
+    user.nil? ? 'Anonymous User' : user.username
   end
 
   def map_image(latitude, longitude)
     return nil if latitude.nil? and longitude.nil?
-    link_to raw("<span class='glyphicon glyphicon-globe'><span>"), "https://www.google.co.in/maps/place/#{latitude},#{longitude}", target: "_blank;"
+    link_to glyph_icon("globe"), "https://www.google.co.in/maps/place/#{latitude},#{longitude}", target: "_blank;"
   end
 
   def get_user_profile_picture(user)
@@ -36,9 +34,9 @@ module PostsHelper
 
   def get_like_button(post, current_user)
     if current_user.present? and post.user != current_user
-      link_to raw("<span class='glyphicon glyphicon-heart untitle like_count #{class_for_like_unlike(post.id, current_user)}'>#{post.likes_count}</span>"), like_unlike_path(post.id, current_user.id), remote: true
+      link_to glyph_icon("heart untitle like_count #{class_for_like_unlike(post, current_user)}", text: post.likes_count.to_s), like_unlike_path(post), remote: true
     else
-      raw("<span class='glyphicon glyphicon-heart untitle like_count #{class_for_link_unlike_based_on_count(post)}'>#{post.likes_count}</span>")
+      link_to glyph_icon("heart untitle like_count #{class_for_like_unlike(post, current_user)}", text: post.likes_count.to_s)
     end
   end
 
@@ -46,7 +44,7 @@ module PostsHelper
     post.likes_count != 0 ? 'red' : 'black'
   end
 
-  def class_for_like_unlike(post_id, current_user)
-    current_user.has_liked_post?(post_id) ? 'red' : 'black'
+  def class_for_like_unlike(post, current_user)
+    current_user.has_liked_post?(post) ? 'red' : 'black'
   end
 end

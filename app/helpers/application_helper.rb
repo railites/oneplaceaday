@@ -10,4 +10,10 @@ module ApplicationHelper
   def user_profile_page? params
     params[:controller] == 'users' and params[:action] == 'posts'
   end
+
+  def glyph_icon(icon, options={})
+    content_tag('span', class: "glyphicon glyphicon-#{icon}") do 
+    	options[:text] if options[:text]
+    end
+  end
 end

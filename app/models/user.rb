@@ -12,10 +12,6 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :likes
 
-  def my_posts
-    Post.where(:user_id => self.id).order('created_at DESC')
-  end
-
   def facebook?
     provider == 'facebook'
   end
@@ -24,9 +20,8 @@ class User < ActiveRecord::Base
     provider == 'twitter'
   end
 
-  def has_liked_post?(post_id)
-    like = Like.where(post_id: post_id, user_id: id).first
-    like.present?
+  def has_liked_post?(post)
+    likes.include?(post)
   end
 
   def self.from_omniauth(auth)
